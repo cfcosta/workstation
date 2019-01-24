@@ -20,7 +20,12 @@ RUN usermod -a -G docker $USER \
 
 USER 1000:1000
 
-RUN ln -s /home/$USER/.workstation/bin/workstation /home/$USER/.bin/workstation && \
-    chmod +x /home/$USER/.bin/workstation
+RUN ln -s /home/$USER/.workstation/bin/workstation /home/$USER/.bin/workstation \
+ && chmod +x /home/$USER/.bin/workstation
+
+RUN cd /home/$USER/.bin \
+ && curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl \
+ && chmod +x kubectl \
+ && cd -
 
 ENTRYPOINT /entrypoint.sh

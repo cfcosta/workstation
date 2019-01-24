@@ -57,7 +57,7 @@ while [[ $# -gt 0 ]]; do
       fi
 
       if [[ $1 = "docker" ]]; then
-        EXTRA_ARGS="-v /var/run/docker.sock:/var/run/docker.sock"
+        EXTRA_ARGS="-v /var/run/docker.sock:/var/run/docker.sock -v $HOME/.kube:$HOME/.kube"
       fi
 
       docker run --env-file $ROOT/deploy/env \
