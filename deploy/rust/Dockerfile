@@ -11,3 +11,5 @@ RUN pacman -S --noconfirm rustup \
 USER 1000:1000
 
 RUN rustup default stable
+
+RUN code --install-extension rust-lang.rust

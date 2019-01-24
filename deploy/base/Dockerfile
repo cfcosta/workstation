@@ -2,17 +2,16 @@
 FROM archlinux/base:latest as yay_builder
 ARG USER
 COPY mirrorlist /etc/pacman.d/mirrorlist
-RUN pacman -Sy --noconfirm go git
+RUN pacman -Sy --noconfirm go git base-devel
+COPY yay /home/$USER/yay
 RUN groupadd -g 1000 -r $USER \
  && useradd -ru 1000 -g $USER $USER \
  && mkdir -p /home/$USER \
  && mkdir -p /src \
  && chown -R 1000:1000 /home/$USER /src
-RUN pacman -S --noconfirm base-devel
 USER 1000:1000
-RUN cd && git clone https://aur.archlinux.org/yay.git \
- && cd yay \
- && makepkg --noconfirm
+WORKDIR /home/$USER/yay
+RUN makepkg --noconfirm
 
 # Base Image
 FROM archlinux/base:latest
@@ -59,6 +58,7 @@ WORKDIR /src
 ENV PATH=~/.bin:$PATH
 
 COPY custom.zsh /home/$USER/custom.zsh
+COPY init.vim /home/$USER/.config/nvim/init.vim
 
 RUN sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" || true \
  && echo "source ~/custom.zsh" >> /home/$USER/.zshrc
