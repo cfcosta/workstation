@@ -25,7 +25,7 @@ ENV TERM=xterm-256color
 COPY mirrorlist /etc/pacman.d/mirrorlist
 
 # Required dependencies
-RUN pacman -Syyu --noconfirm wget zsh shadow curl git wget base-devel
+RUN pacman -Syyu --noconfirm wget zsh shadow curl git wget base-devel libidn readline
 
 # Utils
 RUN pacman -S --noconfirm neovim exa fd bat skim ripgrep tmux jq
