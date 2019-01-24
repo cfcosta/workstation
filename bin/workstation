@@ -27,7 +27,7 @@ while [[ $# -gt 0 ]]; do
 
       docker build -t workstation_base:latest --build-arg USER=$(whoami) $ROOT/deploy/base
       docker build -t workstation_vscode:latest --build-arg USER=$(whoami) $ROOT/deploy/vscode
-      docker build -t workstation_js:latest --build-arg USER=$(whoami) $ROOT/deploy/js
+      docker build -t workstation_javascript:latest --build-arg USER=$(whoami) $ROOT/deploy/javascript
       docker build -t workstation_rust:latest --build-arg USER=$(whoami) $ROOT/deploy/rust
       docker build -t workstation_postgresql:latest --build-arg USER=$(whoami) $ROOT/deploy/postgresql
       docker build -t workstation_redis:latest --build-arg USER=$(whoami) $ROOT/deploy/redis
