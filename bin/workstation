@@ -45,6 +45,7 @@ while [[ $# -gt 0 ]]; do
 
       docker run --env-file $ROOT/deploy/env \
         -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix \
+        -v $HOME/.gitconfig:$HOME/.gitconfig
         --network=workstation_default -v "$DIR:/src" \
         -it workstation_$1:latest
       shift; shift;
