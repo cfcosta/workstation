@@ -26,6 +26,7 @@ while [[ $# -gt 0 ]]; do
       set -e
 
       docker build -t workstation_base:latest --build-arg USER=$(whoami) $ROOT/deploy/base
+      docker build -t workstation_vscode:latest --build-arg USER=$(whoami) $ROOT/deploy/vscode
       docker build -t workstation_js:latest --build-arg USER=$(whoami) $ROOT/deploy/js
       docker build -t workstation_rust:latest --build-arg USER=$(whoami) $ROOT/deploy/rust
       docker build -t workstation_postgresql:latest --build-arg USER=$(whoami) $ROOT/deploy/postgresql
@@ -42,7 +43,10 @@ while [[ $# -gt 0 ]]; do
         DIR=$(pwd)
       fi
 
-      docker run --env-file $ROOT/deploy/env -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix --network=workstation_default -v "$DIR:/src" -it workstation_$1:latest
+      docker run --env-file $ROOT/deploy/env \
+        -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix \
+        --network=workstation_default -v "$DIR:/src" \
+        -it workstation_$1:latest
       shift; shift;
       ;;
     up)

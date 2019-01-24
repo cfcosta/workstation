@@ -1,4 +1,4 @@
-FROM workstation_base:latest
+FROM workstation_vscode:latest
 
 ENV SPIN=rust
 
