@@ -158,16 +158,11 @@ let g:python3_host_prog = "/usr/bin/python3"
 set background=dark
 
 if isdirectory($HOME . "/.config/nvim/autoload")
-  "if &t_Co < 256 && !has("gui_running")
-    "set bg=dark
-    colorscheme dracula
-  "else
+    silent! colorscheme dracula
     " Tmux fixes
     let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
     set termguicolors
-    "colorscheme dracula
-  "endif
 endif
 
 " Completion configuration
