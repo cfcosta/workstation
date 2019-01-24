@@ -40,7 +40,7 @@ RUN pacman -U --noconfirm /tmp/yay-9.1.0-1-x86_64.pkg.tar.xz \
 
 RUN groupadd -g 1000 -r $USER \
  && useradd -ru 1000 -g $USER $USER \
- && mkdir -p /home/$USER \
+ && mkdir -p /home/$USER/.config/nvim \
  && mkdir -p /src \
  && chown -R 1000:1000 /home/$USER /src
 
@@ -59,6 +59,10 @@ ENV PATH=~/.bin:$PATH
 
 COPY custom.zsh /home/$USER/custom.zsh
 COPY init.vim /home/$USER/.config/nvim/init.vim
+
+RUN mkdir -p /home/$USER/.config/nvim/autoload \
+ && wget https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim -O /home/$USER/.config/nvim/autoload/plug.vim \
+ && nvim +PlugInstall +qa
 
 RUN sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" || true \
  && echo "source ~/custom.zsh" >> /home/$USER/.zshrc

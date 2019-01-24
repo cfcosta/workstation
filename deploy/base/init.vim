@@ -63,7 +63,7 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'Shougo/neco-vim' " Ncm depends on it for vim completion
   Plug 'ncm2/ncm2-go' " Golang
   Plug 'yuki-ycino/ncm2-dictionary' " Dictionary completion
-  Plug 'mhartington/nvim-typescript', { 'do': './install.sh' } " Typescript
+  "Plug 'mhartington/nvim-typescript', { 'do': './install.sh' } " Typescript
   Plug 'ncm2/ncm2-bufword' " words on buffer
   Plug 'ncm2/ncm2-path' " file path
   Plug 'ncm2/ncm2-syntax' | Plug 'Shougo/neco-syntax' " Syntax-based completion
