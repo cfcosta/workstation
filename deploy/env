@@ -1,0 +1,6 @@
+# Postgres Configuration
+POSTGRES_USER=workstation
+
+# Application Configuration
+DATABASE_URL=postgres://workstation:workstation@database:5432/framefy
+REDIS_URL=redis://redis:6379

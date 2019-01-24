@@ -36,8 +36,12 @@ while [[ $# -gt 0 ]]; do
         DIR=$(pwd)
       fi
 
-      docker run -v "$DIR:/src" -it workstation_$1:latest /bin/zsh
+      docker run --network=workstation_default -v "$DIR:/src" -it workstation_$1:latest
       shift; shift;
+      ;;
+    up)
+      set -xe
+      docker-compose -p workstation -f $ROOT/deploy/docker-compose.yml up --build $@
       ;;
     *)
       echo "Unknown argument [$key]. Aborting."
