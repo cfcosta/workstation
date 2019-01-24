@@ -20,6 +20,11 @@ abspath() {
 FILE=$(abspath $(readlink -f $0))
 ROOT=$(abspath "$(dirname $FILE)/..")
 
+if ! groups $(whoami) | grep &>/dev/null docker; then
+  echo "User is not on the 'docker' group, this is necessary to run docker without root."
+  exit 1
+fi
+
 while [[ $# -gt 0 ]]; do
   case $1 in
     build)
@@ -36,6 +41,11 @@ while [[ $# -gt 0 ]]; do
       ;;
     shell)
       shift;
+
+      if ! docker network ls | grep workstation_default &>/dev/null; then
+        echo "Docker network is not running, did you remember to run 'workstation build'?"
+        exit 1
+      fi
 
       if [ -d "$2" ]; then
         DIR=$(abspath "$2")
