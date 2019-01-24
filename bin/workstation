@@ -36,11 +36,14 @@ while [[ $# -gt 0 ]]; do
       docker build -t workstation_rust:latest --build-arg USER=$(whoami) $ROOT/deploy/rust
       docker build -t workstation_postgresql:latest --build-arg USER=$(whoami) $ROOT/deploy/postgresql
       docker build -t workstation_redis:latest --build-arg USER=$(whoami) $ROOT/deploy/redis
+      docker build -t workstation_docker:latest --build-arg USER=$(whoami) -f ./deploy/docker/Dockerfile .
 
       shift;
       ;;
     shell)
       shift;
+
+      EXTRA_ARGS=""
 
       if ! docker network ls | grep workstation_default &>/dev/null; then
         echo "Docker network is not running, did you remember to run 'workstation build'?"
@@ -53,11 +56,16 @@ while [[ $# -gt 0 ]]; do
         DIR=$(pwd)
       fi
 
+      if [[ $1 = "docker" ]]; then
+        EXTRA_ARGS="-v /var/run/docker.sock:/var/run/docker.sock"
+      fi
+
       docker run --env-file $ROOT/deploy/env \
         -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix \
         -v $HOME/.gitconfig:$HOME/.gitconfig \
         -v $HOME/.ssh:$HOME/.ssh \
         --network=workstation_default -v "$DIR:/src" \
+        $EXTRA_ARGS \
         -it workstation_$1:latest
       shift; shift;
       ;;

@@ -45,8 +45,8 @@ COPY --from=yay_builder /home/$USER/yay/yay-9.1.0-1-x86_64.pkg.tar.xz /tmp/yay-9
 RUN pacman -U --noconfirm /tmp/yay-9.1.0-1-x86_64.pkg.tar.xz \
  && rm /tmp/*.pkg.tar.xz
 
-RUN groupadd -g 1000 -r $USER \
- && useradd -ru 1000 -g $USER $USER \
+RUN groupadd -g 1000 -r $(echo -n $USER | sed 's/\.//g') \
+ && useradd -ru 1000 -g $(echo -n $USER | sed 's/\.//g') $USER \
  && mkdir -p /home/$USER/.config/nvim \
  && mkdir -p /src \
  && chown -R 1000:1000 /home/$USER /src
@@ -62,7 +62,7 @@ RUN mkdir -p /home/$USER/.bin \
 
 WORKDIR /src
 
-ENV PATH=~/.bin:$PATH
+ENV PATH=/home/$USER/.bin:$PATH
 
 COPY custom.zsh /home/$USER/custom.zsh
 COPY init.vim /home/$USER/.config/nvim/init.vim
