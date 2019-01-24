@@ -46,10 +46,11 @@ RUN pacman -U --noconfirm /tmp/yay-9.1.0-1-x86_64.pkg.tar.xz \
  && rm /tmp/*.pkg.tar.xz
 
 RUN groupadd -g 1000 -r $(echo -n $USER | sed 's/\.//g') \
- && useradd -ru 1000 -g $(echo -n $USER | sed 's/\.//g') $USER \
  && mkdir -p /home/$USER/.config/nvim \
  && mkdir -p /src \
- && chown -R 1000:1000 /home/$USER /src
+ && useradd -ru 1000 -g $(echo -n $USER | sed 's/\.//g') $USER \
+ && chown -R 1000:1000 /home/$USER /src \
+ && chmod -R g+s /home/$USER
 
 USER 1000:1000
 
