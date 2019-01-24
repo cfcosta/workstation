@@ -4,7 +4,7 @@ USER root
 
 ENV SPIN=docker
 
-RUN pacman -S --noconfirm docker
+RUN pacman -S --noconfirm docker docker-compose
 
 COPY ./deploy/docker/entrypoint.sh /entrypoint.sh
 
