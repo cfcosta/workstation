@@ -25,13 +25,18 @@ ENV TERM=xterm-256color
 COPY mirrorlist /etc/pacman.d/mirrorlist
 
 # Required dependencies
-RUN pacman -Syyu --noconfirm wget zsh shadow curl git wget base-devel libidn readline openssh
+RUN pacman -Syyu --noconfirm wget zsh shadow curl git wget base-devel libidn readline openssh python python2 ruby python-pip python2-pip
 
 # Utils
 RUN pacman -S --noconfirm neovim exa fd bat skim ripgrep tmux jq
 
 # Dependencies for aurutils
 RUN pacman -S --noconfirm jq expac diffstat pacutils parallel
+
+# Dependencies for neovim
+RUN pip2 install pynvim neovim \
+ && pip3 install pynvim neovim \
+ && gem install neovim
 
 COPY --from=yay_builder /home/$USER/yay/yay-9.1.0-1-x86_64.pkg.tar.xz /tmp/yay-9.1.0-1-x86_64.pkg.tar.xz
 
@@ -62,7 +67,8 @@ COPY init.vim /home/$USER/.config/nvim/init.vim
 
 RUN mkdir -p /home/$USER/.config/nvim/autoload \
  && wget https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim -O /home/$USER/.config/nvim/autoload/plug.vim \
- && nvim +PlugInstall +qa
+ && nvim +PlugInstall +qa \
+ && nvim +UpdateRemotePlugins +qa
 
 RUN sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" || true \
  && echo "source ~/custom.zsh" >> /home/$USER/.zshrc

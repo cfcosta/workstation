@@ -8,6 +8,6 @@ ENV SPIN=javascript
 
 RUN pacman -S --noconfirm nodejs npm
 
-RUN npm install -g yarn typescript ts-node create-react-app tslint
+RUN npm install -g yarn typescript ts-node create-react-app tslint neovim
 
 USER 1000:1000
