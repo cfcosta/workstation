@@ -24,7 +24,13 @@ while [[ $# -gt 0 ]]; do
   case $1 in
     build)
       set -e
-      make build -C $ROOT
+
+      docker build -t workstation_base:latest --build-arg USER=$(whoami) $ROOT/deploy/base
+      docker build -t workstation_js:latest --build-arg USER=$(whoami) $ROOT/deploy/js
+      docker build -t workstation_rust:latest --build-arg USER=$(whoami) $ROOT/deploy/rust
+      docker build -t workstation_postgresql:latest --build-arg USER=$(whoami) $ROOT/deploy/postgresql
+      docker build -t workstation_redis:latest --build-arg USER=$(whoami) $ROOT/deploy/redis
+
       shift;
       ;;
     shell)
@@ -40,7 +46,10 @@ while [[ $# -gt 0 ]]; do
       shift; shift;
       ;;
     up)
-      set -xe
+      set -e
+
+      shift;
+
       docker-compose -p workstation -f $ROOT/deploy/docker-compose.yml up --build $@
       ;;
     *)
