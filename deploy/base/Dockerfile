@@ -36,7 +36,8 @@ RUN pacman -S --noconfirm jq expac diffstat pacutils parallel
 
 COPY --from=yay_builder /home/$USER/yay/yay-9.1.0-1-x86_64.pkg.tar.xz /tmp/yay-9.1.0-1-x86_64.pkg.tar.xz
 
-RUN pacman -U --noconfirm /tmp/yay-9.1.0-1-x86_64.pkg.tar.xz
+RUN pacman -U --noconfirm /tmp/yay-9.1.0-1-x86_64.pkg.tar.xz \
+ && rm /tmp/*.pkg.tar.xz
 
 RUN groupadd -g 1000 -r $USER \
  && useradd -ru 1000 -g $USER $USER \
@@ -46,6 +47,13 @@ RUN groupadd -g 1000 -r $USER \
 
 USER 1000:1000
 
+RUN mkdir -p /home/$USER/.bin \
+ && cd /tmp && wget https://github.com/watchexec/watchexec/releases/download/1.9.2/watchexec-1.9.2-i686-unknown-linux-musl.tar.gz \
+ && tar -xf watchexec-1.9.2-i686-unknown-linux-musl.tar.gz \
+ && cp watchexec-1.9.2-i686-unknown-linux-musl/watchexec /home/$USER/.bin/watchexec \
+ && chmod +x /home/$USER/.bin/watchexec \
+ && rm -rf /tmp/watchexec*
+
 WORKDIR /src
 
 ENV PATH=~/.bin:$PATH
@@ -53,7 +61,6 @@ ENV PATH=~/.bin:$PATH
 COPY custom.zsh /home/$USER/custom.zsh
 
 RUN sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" || true \
- && echo "source ~/custom.zsh" >> /home/$USER/.zshrc \
- && mkdir ~/.bin
+ && echo "source ~/custom.zsh" >> /home/$USER/.zshrc
 
 ENTRYPOINT /bin/zsh

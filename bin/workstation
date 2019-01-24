@@ -42,7 +42,7 @@ while [[ $# -gt 0 ]]; do
         DIR=$(pwd)
       fi
 
-      docker run --env-file $ROOT/deploy/env --network=workstation_default -v "$DIR:/src" -it workstation_$1:latest
+      docker run --env-file $ROOT/deploy/env -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix --network=workstation_default -v "$DIR:/src" -it workstation_$1:latest
       shift; shift;
       ;;
     up)
