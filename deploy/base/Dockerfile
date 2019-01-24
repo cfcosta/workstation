@@ -25,10 +25,12 @@ ENV TERM=xterm-256color
 COPY mirrorlist /etc/pacman.d/mirrorlist
 
 # Required dependencies
-RUN pacman -Syyu --noconfirm wget zsh shadow curl git wget base-devel libidn readline openssh python python2 ruby python-pip python2-pip
+RUN pacman -Syyu --noconfirm wget zsh shadow curl git wget base-devel libidn readline openssh python python2 ruby python-pip python2-pip rust nodejs npm
 
 # Utils
 RUN pacman -S --noconfirm neovim exa fd bat skim ripgrep tmux jq
+
+RUN npm install -g neovim typescript
 
 # Dependencies for aurutils
 RUN pacman -S --noconfirm jq expac diffstat pacutils parallel

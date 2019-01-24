@@ -63,7 +63,7 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'Shougo/neco-vim' " Ncm depends on it for vim completion
   Plug 'ncm2/ncm2-go' " Golang
   Plug 'yuki-ycino/ncm2-dictionary' " Dictionary completion
-  "Plug 'mhartington/nvim-typescript', { 'do': './install.sh' } " Typescript
+  Plug 'mhartington/nvim-typescript', { 'do': './install.sh' } " Typescript
   Plug 'ncm2/ncm2-bufword' " words on buffer
   Plug 'ncm2/ncm2-path' " file path
   Plug 'ncm2/ncm2-syntax' | Plug 'Shougo/neco-syntax' " Syntax-based completion
@@ -84,19 +84,19 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'lilydjwg/colorizer'
 
   " Language Server Support
-  "Plug 'Shougo/denite.nvim'
-  "Plug 'Shougo/echodoc.vim'
-  "Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'make release'}
-  "let g:LanguageClient_autoStart = 1
-  "let g:LanguageClient_serverCommands = {
-  "\ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
-  "\ 'go': ['go-langserver'],
-  "\ 'typescript': ['javascript-typescript-stdio'],
-  "\ 'tsx': ['javascript-typescript-stdio'],
-  "\ 'typescript.tsx': ['javascript-typescript-stdio'],
-  "\ 'javascript': ['javascript-typescript-stdio'],
-  "\ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
-  "\ }
+  Plug 'Shougo/denite.nvim'
+  Plug 'Shougo/echodoc.vim'
+  Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
+  let g:LanguageClient_autoStart = 1
+  let g:LanguageClient_serverCommands = {
+  \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
+  \ 'go': ['go-langserver'],
+  \ 'typescript': ['javascript-typescript-stdio'],
+  \ 'tsx': ['javascript-typescript-stdio'],
+  \ 'typescript.tsx': ['javascript-typescript-stdio'],
+  \ 'javascript': ['javascript-typescript-stdio'],
+  \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
+  \ }
 
   " Environment plugins
   Plug 'jlanzarotta/bufexplorer'

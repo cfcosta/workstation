@@ -4,7 +4,8 @@ ENV SPIN=rust
 
 USER root
 
-RUN pacman -S --noconfirm rustup \
+RUN pacman -Rs --noconfirm rust \
+ && pacman -S --noconfirm rustup \
  && rustup default stable \
  && rustup component add rls rust-analysis rust-src clippy
 
