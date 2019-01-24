@@ -1,0 +1,47 @@
+#!/usr/bin/bash
+
+abspath() {
+  if [[ -d "$1" ]]
+  then
+    pushd "$1" >/dev/null
+    pwd
+    popd >/dev/null
+  elif [[ -e $1 ]]
+  then
+    pushd "$(dirname "$1")" >/dev/null
+    echo "$(pwd)/$(basename "$1")"
+    popd >/dev/null
+  else
+    echo "$1" does not exist! >&2
+    return 127
+  fi
+}
+
+FILE=$(abspath $(readlink -f $0))
+ROOT=$(abspath "$(dirname $FILE)/..")
+
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    build)
+      set -e
+      make build -C $ROOT
+      shift;
+      ;;
+    shell)
+      shift;
+
+      if [ -d "$2" ]; then
+        DIR=$(abspath "$2")
+      else
+        DIR=$(pwd)
+      fi
+
+      docker run -v "$DIR:/src" -it workstation_$1:latest /bin/zsh
+      shift; shift;
+      ;;
+    *)
+      echo "Unknown argument [$key]. Aborting."
+      exit 1
+      ;;
+  esac
+done
