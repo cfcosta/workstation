@@ -9,3 +9,4 @@ build:
 	docker build -t workstation_js:latest --build-arg USER=$(shell whoami) ./deploy/js
 	docker build -t workstation_rust:latest --build-arg USER=$(shell whoami) ./deploy/rust
 	docker build -t workstation_postgresql:latest --build-arg USER=$(shell whoami) ./deploy/postgresql
+	docker build -t workstation_redis:latest --build-arg USER=$(shell whoami) ./deploy/redis
