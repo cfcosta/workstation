@@ -1,5 +1,12 @@
 #!/usr/bin/bash
 
+failed_dependency() {
+  local message=$1
+
+  echo "Script failed because of missing dependency: $message."
+  exit 1
+}
+
 abspath() {
   if [[ -d "$1" ]]
   then
@@ -46,8 +53,7 @@ while [[ $# -gt 0 ]]; do
       EXTRA_ARGS=""
 
       if ! docker network ls | grep workstation_default &>/dev/null; then
-        echo "Docker network is not running, did you remember to run 'workstation build'?"
-        exit 1
+        failed_dependency "Docker network is not running, try running 'workstation up' on another terminal"
       fi
 
       if [ -d "$2" ]; then
