@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 
 failed_dependency() {
   local message=$1
@@ -43,7 +43,8 @@ while [[ $# -gt 0 ]]; do
       docker build -t workstation_rust:latest --build-arg USER=$(whoami) $ROOT/deploy/rust
       docker build -t workstation_postgresql:latest --build-arg USER=$(whoami) $ROOT/deploy/postgresql
       docker build -t workstation_redis:latest --build-arg USER=$(whoami) $ROOT/deploy/redis
-      docker build -t workstation_docker:latest --build-arg USER=$(whoami) -f ./deploy/docker/Dockerfile .
+      docker build -t workstation_docker:latest --build-arg USER=$(whoami) -f $ROOT/deploy/docker/Dockerfile .
+      docker build -t workstation_gui:latest --build-arg USER=$(whoami) $ROOT/deploy/gui
 
       shift;
       ;;

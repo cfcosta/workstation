@@ -67,6 +67,7 @@ ENV PATH=/home/$USER/.bin:$PATH
 
 COPY custom.zsh /home/$USER/custom.zsh
 COPY init.vim /home/$USER/.config/nvim/init.vim
+COPY tmux.conf /home/$USER/tmux.conf
 
 RUN mkdir -p /home/$USER/.config/nvim/autoload \
  && wget https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim -O /home/$USER/.config/nvim/autoload/plug.vim \
