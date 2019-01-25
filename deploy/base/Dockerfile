@@ -1,15 +1,17 @@
 # Builder for yay (an AUR wrapper)
 FROM archlinux/base:latest as yay_builder
 ARG USER
+ARG UID
+ARG GID
 COPY mirrorlist /etc/pacman.d/mirrorlist
 RUN pacman -Sy --noconfirm go git base-devel
 COPY yay /home/$USER/yay
-RUN groupadd -g 1000 -r $USER \
- && useradd -ru 1000 -g $USER $USER \
+RUN groupadd -g $GID -r $USER \
+ && useradd -ru $UID -g $USER $USER \
  && mkdir -p /home/$USER \
  && mkdir -p /src \
- && chown -R 1000:1000 /home/$USER /src
-USER 1000:1000
+ && chown -R $UID:$GID /home/$USER /src
+USER $UID:$GID
 WORKDIR /home/$USER/yay
 RUN makepkg --noconfirm
 
@@ -17,6 +19,8 @@ RUN makepkg --noconfirm
 FROM archlinux/base:latest
 
 ARG USER
+ARG UID
+ARG GID
 
 ENV SPIN=base
 ENV TERM=xterm-256color
@@ -45,14 +49,14 @@ COPY --from=yay_builder /home/$USER/yay/yay-9.1.0-1-x86_64.pkg.tar.xz /tmp/yay-9
 RUN pacman -U --noconfirm /tmp/yay-9.1.0-1-x86_64.pkg.tar.xz \
  && rm /tmp/*.pkg.tar.xz
 
-RUN groupadd -g 1000 -r $(echo -n $USER | sed 's/\.//g') \
+RUN groupadd -g $GID -r $(echo -n $USER | sed 's/\.//g') \
  && mkdir -p /home/$USER/.config/nvim \
  && mkdir -p /src \
- && useradd -ru 1000 -g $(echo -n $USER | sed 's/\.//g') $USER \
- && chown -R 1000:1000 /home/$USER /src \
+ && useradd -ru $UID -g $(echo -n $USER | sed 's/\.//g') $USER \
+ && chown -R $UID:$GID /home/$USER /src \
  && chmod -R g+s /home/$USER
 
-USER 1000:1000
+USER $UID:$GID
 
 RUN mkdir -p /home/$USER/.bin \
  && cd /tmp && wget https://github.com/watchexec/watchexec/releases/download/1.9.2/watchexec-1.9.2-i686-unknown-linux-musl.tar.gz \

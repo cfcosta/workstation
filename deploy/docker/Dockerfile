@@ -9,6 +9,8 @@ RUN pacman -S --noconfirm docker docker-compose
 COPY ./deploy/docker/entrypoint.sh /entrypoint.sh
 
 ARG USER
+ARG UID
+ARG GID
 
 RUN echo "$USER ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
@@ -16,9 +18,9 @@ COPY . /home/$USER/.workstation
 
 RUN usermod -a -G docker $USER \
  && chmod +x /entrypoint.sh \
- && chown -R 1000:1000 /home/$USER/.workstation
+ && chown -R $UID:$GID /home/$USER/.workstation
 
-USER 1000:1000
+USER $UID:$GID
 
 RUN ln -s /home/$USER/.workstation/bin/workstation /home/$USER/.bin/workstation \
  && chmod +x /home/$USER/.bin/workstation

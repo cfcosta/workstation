@@ -9,7 +9,7 @@ RUN pacman -Rs --noconfirm rust \
  && rustup default stable \
  && rustup component add rls rust-analysis rust-src clippy
 
-USER 1000:1000
+USER $UID:$GID
 
 RUN rustup default stable
 

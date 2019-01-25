@@ -1,6 +1,8 @@
 FROM workstation_base:latest
 
 ARG USER
+ARG UID
+ARG GID
 
 ENV SPIN=postgres
 
@@ -8,6 +10,6 @@ USER root
 
 RUN pacman -S --noconfirm redis
 
-USER 1000:1000
+USER $UID:$GID
 
 ENTRYPOINT redis-cli -u $REDIS_URL

@@ -37,14 +37,16 @@ while [[ $# -gt 0 ]]; do
     build)
       set -e
 
-      docker build -t workstation_base:latest --build-arg USER=$(whoami) $ROOT/deploy/base
-      docker build -t workstation_vscode:latest --build-arg USER=$(whoami) $ROOT/deploy/vscode
-      docker build -t workstation_javascript:latest --build-arg USER=$(whoami) $ROOT/deploy/javascript
-      docker build -t workstation_rust:latest --build-arg USER=$(whoami) $ROOT/deploy/rust
-      docker build -t workstation_postgresql:latest --build-arg USER=$(whoami) $ROOT/deploy/postgresql
-      docker build -t workstation_redis:latest --build-arg USER=$(whoami) $ROOT/deploy/redis
-      docker build -t workstation_docker:latest --build-arg USER=$(whoami) -f $ROOT/deploy/docker/Dockerfile .
-      docker build -t workstation_gui:latest --build-arg USER=$(whoami) $ROOT/deploy/gui
+      COMMAND="docker build -t workstation_base:latest --build-arg USER=$(whoami) --build-arg UID=$(id -u $(whoami)) --build-arg GID=$(id -g $(whoami))"
+
+      $COMMAND $ROOT/deploy/base
+      $COMMAND $ROOT/deploy/vscode
+      $COMMAND $ROOT/deploy/javascript
+      $COMMAND $ROOT/deploy/rust
+      $COMMAND $ROOT/deploy/postgresql
+      $COMMAND $ROOT/deploy/redis
+      $COMMAND -f $ROOT/deploy/docker/Dockerfile $ROOT
+      $COMMAND $ROOT/deploy/gui
 
       shift;
       ;;
